@@ -6,190 +6,66 @@
     <el-step title="Finish case" description="Check summary and move to next case"></el-step>
   </el-steps>
 
-  <div class="fflex">
-    <!--<div style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"-->
-         <!--@click="state.selectedImageIndex = index"-->
-         <!--v-for="(url, index) in data.sideUrls">-->
-      <!--<card-->
-           <!--:title="data.sideCaptions[index]"-->
-           <!--:style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" >-->
-              <!--<img style="display: block; width: 100%; object-fit: contain; background: white;":src="url"/>-->
-      <!--</card>-->
-    <!--</div>-->
+  <hr class="mb15" style="height: 1px; color: #e0e0e0; background-color: #e0e0e0; border: none; margin-top: 15px;"/>
 
-      <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
-           :title="data.sideCaptions[index]"
-           :style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">
-              <img style="display: block; width: 100%; object-fit: contain; background: white;"
-                   :src="url"
-                   @click="state.selectedImageIndex = index" />
-      </card>
+  <div v-if="state.active === 1">
+    <div class="fflex">
+        <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
+             :title="data.sideCaptions[index]"
+             :style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">
+                <img style="display: block; width: 100%; object-fit: contain; background: white;"
+                     :src="url"
+                     @click="state.selectedImageIndex = index" />
+            <div slot="header">
+              <el-switch style="margin-top: -5px;" :width=80 v-model="state.sideAccepted[index]" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch>
+            </div>
+        </card>
+    </div>
+
+    <div class="fflex" style="margin-top: 10px;">
+      <el-button v-if="state.sideAccepted.every(Boolean)" type="success" style="margin-right: 10px;">Accept case</el-button>
+      <el-button v-if="!state.sideAccepted.every(Boolean)" type="danger">Reject case</el-button>
+    </div>
+
+    <!--<card style="margin-top:10px; width: 300px; height: 300px" title="Image preview" subtitle="Use zoom/pan instruments to look over details">-->
+        <!--<sly-gallery :content="[[data.sideUrls[state.selectedImageIndex]]]"/>-->
+    <!--</card>-->
+
   </div>
 
 
-  <!--<el-row>-->
-    <!--<el-col :span="12"><div>text here</div></el-col>-->
-    <!--<el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-  <!--</el-row>-->
+  <div v-if="state.active === 2">
+    <div class="fflex">
+        <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
+             :title="data.sideCaptions[index]"
+             :style="{ borderColor: 'transparent' }" v-for="(url, index) in data.sideUrls">
+                <img style="display: block; width: 100%; object-fit: contain; background: white;"
+                     :src="url"
+                     @click="state.selectedImageIndex = index" />
+            <div slot="header">
+              <a :href="data.partsLabelingUrl[index]" target="_blank">Label parts</a>
+            </div>
+        </card>
+    </div>
+    <el-button type="primary" style="margin-top: 10px;">Finish parts labeling</el-button>
+  </div>
 
-  <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-    <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.sideUrls[0]">-->
-    <!--<div>text here</div>-->
-  <!--</div>-->
+  <div v-if="state.active === 3">
+    <div class="fflex">
+        <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
+             :title="data.sideCaptions[index]"
+             :style="{ borderColor: 'transparent' }" v-for="(url, index) in data.sideUrls">
+                <img style="display: block; width: 100%; object-fit: contain; background: white;"
+                     :src="url"
+                     @click="state.selectedImageIndex = index" />
+            <div slot="header">
+              <a :href="data.defectsLabelingUrl[index]" target="_blank">Label defects</a>
+            </div>
+        </card>
+    </div>
+    <el-button type="primary" style="margin-top: 10px;">Finish defects labeling</el-button>
+  </div>
 
-  <!--<div style="float: left; margin: 1px; border: 3px solid transparent;"-->
-       <!--:style="{ borderColor: state.selectedSideIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">-->
-        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;"-->
-             <!--:src="url"-->
-             <!--@click="state.selectedImageIndex = index"-->
-        <!--/>-->
-      <!--&lt;!&ndash;<div v-if="item.label.length >= 15" style="text-align:center; word-wrap:break-word;">{{ item.label.substring(0,15)+".." }}</div>&ndash;&gt;-->
-  <!--</div>-->
-
-  <!--<el-row :gutter="5">-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.front">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">FRONT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.back">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">BACK</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.backAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.left">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">LEFT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.leftAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.right">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">RIGHT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.rightAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-  <!--</el-row>-->
-
-  <!--<el-col :span="2">-->
-    <!--<el-row style="margin-bottom: 10px;" :gutter="5">-->
-        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;" :src="data.case.front"/>-->
-    <!--</el-row>-->
-    <!--<el-row style="margin-bottom: 10px;" :gutter="5">-->
-        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;" :src="data.case.front"/>-->
-    <!--</el-row>-->
-    <!--<el-row style="margin-bottom: 10px;" :gutter="5">-->
-        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;" :src="data.case.front"/>-->
-    <!--</el-row>-->
-    <!--<el-row style="margin-bottom: 10px;" :gutter="5">-->
-        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;" :src="data.case.front"/>-->
-    <!--</el-row>-->
-  <!--</el-col>-->
-
-
-
-
-
-  <!--<el-button icon="warning" type="primary" size="small" @click="command('validate_case')">Accept case</el-button>-->
-  <!--<br/>-->
-  <!--<el-button icon="warning" type="danger" size="small" @click="command('validate_case')">Reject case</el-button>-->
-
-  <!--<div style="float: left; margin: 1px; width: 120px; border: 3px solid transparent;"-->
-       <!--:style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" v-for="index in data.gridIndices">-->
-      <!--<el-tooltip class="item" effect="dark" :content="data.imagesGrid[index].label" placement="top-start">-->
-          <!--<img style="display: block; width: 100%; height: 300px; object-fit: contain; background: white;"-->
-               <!--:src="data.imagesGrid[index].url"-->
-               <!--@click="state.selectedImageIndex = index"-->
-          <!--/>-->
-      <!--</el-tooltip>-->
-      <!--&lt;!&ndash;<div v-if="item.label.length >= 15" style="text-align:center; word-wrap:break-word;">{{ item.label.substring(0,15)+".." }}</div>&ndash;&gt;-->
-  <!--</div>-->
-
-
-  <!--<el-row :gutter="5">-->
-    <!--<el-col :span="12">-->
-      <!--<sly-gallery :content="[[data.case.front]]"/>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-      <!--<sly-gallery :content="[[data.case.back]]"/>-->
-    <!--</el-col>-->
-  <!--</el-row>-->
-
-  <!--<el-row :gutter="5">-->
-    <!--<el-col :span="12">-->
-      <!--<sly-gallery :content="[[data.case.left]]"/>-->
-    <!--</el-col>-->
-    <!--<el-col :span="12">-->
-      <!--<sly-gallery :content="[[data.case.right]]"/>-->
-    <!--</el-col>-->
-  <!--</el-row>-->
-
-  <!--<el-row :gutter="5">-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.front">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">FRONT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.back">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">BACK</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.backAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.left">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">LEFT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.leftAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-    <!--<el-col :span="6">-->
-      <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
-        <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.right">-->
-        <!--<el-row :gutter="5">-->
-          <!--<el-col :span="12"><div style="padding: 15px; text-align: center;">RIGHT</div></el-col>-->
-          <!--<el-col :span="12"><el-switch v-model="state.rightAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</el-col>-->
-  <!--</el-row>-->
-
-      <!--<div class="row">-->
-        <!--<div class="column">-->
-          <!--<img :src="data.case.front" style="width:100%">-->
-        <!--</div>-->
-        <!--<div class="column">-->
-          <!--<img :src="data.case.back" style="width:100%">-->
-        <!--</div>-->
-        <!--<div class="column">-->
-          <!--<img :src="data.case.left" style="width:100%">-->
-        <!--</div>-->
-        <!--<div class="column">-->
-          <!--<img :src="data.case.right" style="width:100%">-->
-        <!--</div>-->
-      <!--</div>-->
+  <card class="mt15" title="Debug state"><pre>{{state}}</pre></card>
 
 </div>

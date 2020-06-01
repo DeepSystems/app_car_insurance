@@ -33,11 +33,14 @@ def main():
     #data
     data = {
         "sideUrls": get_case_urls(cases[0]),
-        "sideCaptions": sides
+        "sideCaptions": [side.upper() for side in sides],
+        "partsLabelingUrl": ["a", "b", "c", "d"],
+        "defectsLabelingUrl": ["x", "y", "y", "z"],
     }
 
     #state
     state = {
+        "sideAccepted": [True] * len(sides),
         "active": 1,
         "frontAccept": True,
         "backAccept": True,
