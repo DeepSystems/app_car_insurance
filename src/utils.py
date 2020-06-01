@@ -10,6 +10,6 @@ def get_task_api():
     server_address = task_info["server_address"]
     api_token = task_info["api_token"]
     api = sly.Api(server_address, api_token, retry_count=10)
-    api.add_additional_field('taskId', task_id)
-    api.add_header('x-task-id', str(task_id))
+    #api.add_additional_field('taskId', task_id)
+    #api.add_header('x-task-id', str(task_id))
     return task_id, api, task_info

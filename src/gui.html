@@ -8,6 +8,8 @@
 
   <hr class="mb15" style="height: 1px; color: #e0e0e0; background-color: #e0e0e0; border: none; margin-top: 15px;"/>
 
+  <div>Case ID: {{data.caseId}}</div>
+
   <div v-if="state.active === 1">
     <div class="fflex">
         <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
@@ -22,19 +24,15 @@
         </card>
     </div>
 
-    <div class="fflex" style="margin-top: 10px;">
-      <el-button v-if="state.sideAccepted.every(Boolean)" type="success" style="margin-right: 10px;">Accept case</el-button>
-      <el-button v-if="!state.sideAccepted.every(Boolean)" type="danger">Reject case</el-button>
-    </div>
+    <el-button v-if="state.sideAccepted.every(Boolean)" type="success" style="margin-top:10px;"
+             @click="command('accept_case')">Accept case</el-button>
 
+      <el-button v-if="!state.sideAccepted.every(Boolean)" type="danger" style="margin-top:10px;"
+             @click="command('reject_case')">Reject case</el-button>
 
     <el-dialog size="large" :visible.sync="state.dialogTableVisible">
       <sly-gallery height="calc(100vh - 300px)" :content="[[data.sideUrls[state.selectedImageIndex]]]"/>
     </el-dialog>
-
-    <!--<card style="margin-top:10px;" title="Image preview" subtitle="Use zoom/pan instruments to look over details">-->
-        <!--<sly-gallery height="500px" :content="[[data.sideUrls[state.selectedImageIndex]]]"/>-->
-    <!--</card>-->
 
   </div>
 
