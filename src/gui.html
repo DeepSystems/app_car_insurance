@@ -14,6 +14,10 @@
   <el-row :gutter="5">
     <el-col :span="6">
       <div style="margin: 5px; border: 1px solid #ccc; float: left;">
+        <el-row :gutter="5">
+          <el-col :span="12"><div style="padding: 15px; text-align: center;">FRONT</div></el-col>
+          <el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>
+        </el-row>
         <sly-gallery :content="[[data.case.front]]"/>
         <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.front">-->
         <!--<el-row :gutter="5">-->

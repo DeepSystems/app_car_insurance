@@ -45,9 +45,9 @@ def main():
     #http://78.46.75.100:11111/apps/sessions/20
     jresp = api.task.set_data(task_id, payload)
 
-    app_service = AppService(sly.logger, task_config)
-    app_service.add_route("validate_case", validate_case)
-    app_service.run()
+    # app_service = AppService(sly.logger, task_config)
+    # app_service.add_route("validate_case", validate_case)
+    # app_service.run()
 
 
     x = 10
