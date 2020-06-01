@@ -5,6 +5,9 @@ import supervisely_lib as sly
 import supervisely_lib.io.json as sly_json
 import utils
 from service import AppService
+import numpy as np
+
+
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 labeling_config = sly_json.load_json_file(os.path.join(SCRIPT_DIR, "../labeling_config.json"))
@@ -52,17 +55,26 @@ def accept_case(request):
     case_index = api.task.get_data(task_id, "data.caseIndex")
     case = cases[case_index]
     partsLabelingUrl = []
+    draw_image_ids = []
 
     for side in sides:
         dataset = api.dataset.get_or_create(projects[side].id, str(case["id"]))
         try:
             image_info = api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
             url = api.image.url(team_id, labeling_workspace_id, projects[side].id, dataset.id, image_info.id)
+            draw_image_ids.append({"side": side, "image_id": image_info.id})
             partsLabelingUrl.append(url)
         except Exception as e:
             pass
     api.task.set_data(task_id, 2, "state.active")
-    api.task.set_data(task_id, partsLabelingUrl, "data.partsLabelingUrl")
+
+    partsAnnotations = []
+    for url in get_case_urls(case):
+        partsAnnotations.append([url, url])
+
+    api.task.set_data(task_id, {"partsLabelingUrl": partsLabelingUrl,
+                                "drawImageIds": draw_image_ids,
+                                "partsAnnotations": partsAnnotations}, "data", append=True)
 
 
 def get_case_urls(case):
@@ -70,6 +82,27 @@ def get_case_urls(case):
     for side in sides:
         case_urls.append(case[side])
     return case_urls
+
+
+def refresh_parts(request):
+
+    parts_annotations = []
+
+    draw_image_ids = api.task.get_data(task_id, "data.drawImageIds")
+    for draw_obj in draw_image_ids:
+        image_id = draw_obj["image_id"]
+        side = draw_obj["side"]
+        meta_json = api.project.get_meta(projects[side].id)
+        meta = sly.ProjectMeta.from_json(meta_json)
+
+        ann_json = api.annotation.download(image_id).annotation
+        ann = sly.Annotation.from_json(ann_json, meta)
+        render = np.zeros(ann.img_size + (3,), dtype=np.uint8)
+        ann.draw(render)
+
+        parts_annotations.append(sly.image.np_image_to_data_url(render))
+
+    api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
 
 
 def main():
@@ -98,7 +131,8 @@ def main():
         "leftAccept": True,
         "rightAccept": True,
         "selectedImageIndex": 0,
-        "dialogTableVisible": False
+        "dialogTableVisible": False,
+        "dialogTableVisible2": False
     }
 
     payload = {
@@ -114,9 +148,8 @@ def main():
 
     app_service = AppService(sly.logger, task_config)
     app_service.add_route("accept_case", accept_case)
+    app_service.add_route("refresh_parts", refresh_parts)
     app_service.run()
-
-    x = 10
 
 
 if __name__ == "__main__":
