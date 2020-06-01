@@ -25,6 +25,10 @@ def main():
     #state
     state = {
         "active": 1,
+        "frontAccept": True,
+        "backAccept": True,
+        "leftAccept": True,
+        "rightAccept": True,
     }
 
     payload = {

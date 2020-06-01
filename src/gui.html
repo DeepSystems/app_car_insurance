@@ -6,33 +6,43 @@
     <el-step title="Finish case" description="Check summary and move to next case"></el-step>
   </el-steps>
 
+  <br/>
+
   <el-row :gutter="5">
     <el-col :span="6">
       <div style="margin: 5px; border: 1px solid #ccc; float: left;">
-        <img style="display: block; width: 100%; object-fit: contain; background: white;"
-           :src="data.case.front">
-        <div style="padding: 15px; text-align: center;">Front</div>
+        <img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.front">
+        <el-row :gutter="5">
+          <el-col :span="12"><div style="padding: 15px; text-align: center;">FRONT</div></el-col>
+          <el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>
+        </el-row>
       </div>
     </el-col>
     <el-col :span="6">
       <div style="margin: 5px; border: 1px solid #ccc; float: left;">
-        <img style="display: block; width: 100%; object-fit: contain; background: white;"
-           :src="data.case.back">
-        <div style="padding: 15px; text-align: center;">Back</div>
+        <img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.back">
+        <el-row :gutter="5">
+          <el-col :span="12"><div style="padding: 15px; text-align: center;">BACK</div></el-col>
+          <el-col :span="12"><el-switch v-model="state.backAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>
+        </el-row>
       </div>
     </el-col>
     <el-col :span="6">
       <div style="margin: 5px; border: 1px solid #ccc; float: left;">
-        <img style="display: block; width: 100%; object-fit: contain; background: white;"
-           :src="data.case.left">
-        <div style="padding: 15px; text-align: center;">Left</div>
+        <img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.left">
+        <el-row :gutter="5">
+          <el-col :span="12"><div style="padding: 15px; text-align: center;">LEFT</div></el-col>
+          <el-col :span="12"><el-switch v-model="state.leftAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>
+        </el-row>
       </div>
     </el-col>
     <el-col :span="6">
       <div style="margin: 5px; border: 1px solid #ccc; float: left;">
-        <img style="display: block; width: 100%; object-fit: contain; background: white;"
-           :src="data.case.right">
-        <div style="padding: 15px; text-align: center;">Right</div>
+        <img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.case.right">
+        <el-row :gutter="5">
+          <el-col :span="12"><div style="padding: 15px; text-align: center;">RIGHT</div></el-col>
+          <el-col :span="12"><el-switch v-model="state.rightAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>
+        </el-row>
       </div>
     </el-col>
   </el-row>
