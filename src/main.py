@@ -183,6 +183,10 @@ def refresh_defects(request):
     api.task.set_data(task_id, defects_annotations, "data.defectsAnnotations")
 
 
+def finish_defects():
+    pass
+
+
 def main():
 
     with open(os.path.join(SCRIPT_DIR, 'gui.html'), 'r') as file:
