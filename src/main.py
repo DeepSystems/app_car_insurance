@@ -6,6 +6,7 @@ import supervisely_lib.io.json as sly_json
 import utils
 from service import AppService
 import numpy as np
+import cv2
 
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -101,11 +102,16 @@ def refresh_parts(request):
         ann_json = api.annotation.download(image_id).annotation
         ann = sly.Annotation.from_json(ann_json, meta)
         render = np.zeros(ann.img_size + (3,), dtype=np.uint8)
+        alpha = np.zeros(ann.img_size + (1,), dtype=np.uint8)
         ann.draw(render)
+        ann.draw(alpha, color=[255])
+        rgba = np.concatenate((render, alpha), axis=2)
 
-        sly.image.write("/workdir/src/01.png", render)
 
-        parts_annotations.append([[image_url, sly.image.np_image_to_data_url(render)]])
+        bgra = rgba[..., [2, 1, 0, 3]]
+        #sly.image.write("/workdir/src/01.png", rgba, remove_alpha_channel=False)
+
+        parts_annotations.append([[image_url, sly.image.np_image_to_data_url(bgra)]])
 
     api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
     print(parts_annotations)
