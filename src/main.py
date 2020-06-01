@@ -71,7 +71,7 @@ def accept_case(request):
 
     partsAnnotations = []
     for url in get_case_urls(case):
-        partsAnnotations.append([url, url])
+        partsAnnotations.append([[url, url]])
 
     api.task.set_data(task_id, {"partsLabelingUrl": partsLabelingUrl,
                                 "drawImageIds": draw_image_ids,
@@ -105,10 +105,10 @@ def refresh_parts(request):
 
         sly.image.write("/workdir/src/01.png", render)
 
-        parts_annotations.append([image_url, sly.image.np_image_to_data_url(render)])
+        parts_annotations.append([[image_url, sly.image.np_image_to_data_url(render)]])
 
     api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
-
+    print(parts_annotations)
 
 def main():
 

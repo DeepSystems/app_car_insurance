@@ -45,7 +45,7 @@
                 <!--<img style="display: block; width: 100%; object-fit: contain; background: white;"-->
                      <!--:src="url"-->
                      <!--@click="state.selectedImageIndex = index; state.dialogTableVisible2 = true" />-->
-                <sly-gallery :content="[[data.sideUrls[index], data.partsAnnotations[index]]]"/>
+                <sly-gallery :content="data.partsAnnotations[index]"/>
             <div slot="header">
               <a :href="data.partsLabelingUrl[index]" target="_blank">Label parts</a>
             </div>

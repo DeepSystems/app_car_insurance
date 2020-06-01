@@ -1,52 +1,37 @@
 [
   {
-    "id": "001",
-    "front": "https://images.craigslist.org/00H0H_1P3y0EKspma_0ak07K_600x450.jpg",
-    "back": "https://images.craigslist.org/00m0m_iOZ60b89AKZ_0ak07K_600x450.jpg",
-    "left": "https://images.craigslist.org/00G0G_e0iut1YBd4C_0ak07K_600x450.jpg",
-    "right": "https://images.craigslist.org/01515_dWTS52Vjqbr_0ak07K_600x450.jpg"
-  },
-  {
-    "id": "002",
-    "front": "https://images.craigslist.org/00909_kaNveaMMInc_0CI0t2_600x450.jpg",
-    "back": "https://images.craigslist.org/00V0V_ozAkB0igx0_0CI0t2_600x450.jpg",
-    "left": "https://images.craigslist.org/00e0e_4yC3rWnfq6V_0CI0t2_600x450.jpg",
-    "right": "https://images.craigslist.org/00J0J_fuHQco4AeOA_0CI0t2_600x450.jpg"
-  },
-  {
     "id": "003",
-    "front": "https://images.craigslist.org/00V0V_b3nvKFkesH2_600x450.jpg",
-    "back": "https://images.craigslist.org/01717_ltXjKgGx8pX_600x450.jpg",
-    "left": "https://images.craigslist.org/00j0j_luSh2SoGVGj_600x450.jpg",
-    "right": "https://images.craigslist.org/00707_dtze7m9oeBx_600x450.jpg"
+    "front": "https://40.img.avito.st/640x480/8505510040.jpg",
+    "back": "https://37.img.avito.st/640x480/8505510037.jpg",
+    "left": "https://58.img.avito.st/640x480/8505510058.jpg",
+    "right": "https://12.img.avito.st/640x480/8505509112.jpg"
   },
   {
     "id": "004",
-    "front": "https://images.craigslist.org/00404_7qtiW9lPHrS_0hi0cU_600x450.jpg",
-    "back": "https://images.craigslist.org/01616_eL8VkqZyv7y_0j20cU_600x450.jpg",
-    "left": "https://images.craigslist.org/00n0n_3KEpZWJVdDi_0jm0cU_600x450.jpg",
-    "right": "https://images.craigslist.org/00A0A_kXsioygSATZ_0jm0cU_1200x900.jpg"
+    "front": "https://79.img.avito.st/1280x960/5924702179.jpg",
+    "back": "https://83.img.avito.st/1280x960/5924702183.jpg",
+    "left": "https://96.img.avito.st/1280x960/5924702196.jpg",
+    "right": "https://96.img.avito.st/1280x960/5924702196.jpg"
   },
   {
     "id": "005",
-    "front": "https://images.craigslist.org/00S0S_cT9dzOgGlSB_0CI0pN_1200x900.jpg",
-    "back": "https://images.craigslist.org/00H0H_eZC0tXGPweA_0CI0pN_1200x900.jpg",
-    "left": "https://images.craigslist.org/00202_gEgjHMPfUkB_0CI0pN_1200x900.jpg",
-    "right": "https://images.craigslist.org/00i0i_79QYFTTBw01_0CI0pN_1200x900.jpg"
+    "front": "https://45.img.avito.st/1280x960/8186340745.jpg",
+    "back": "https://28.img.avito.st/1280x960/8186341028.jpg",
+    "left": "https://06.img.avito.st/1280x960/8186340806.jpg",
+    "right": "https://83.img.avito.st/640x480/8186341083.jpg"
   },
   {
     "id": "006",
-    "front": "https://images.craigslist.org/00I0I_2jYrR4hzmBA_0CI0ne_1200x900.jpg",
-    "back": "https://images.craigslist.org/00V0V_aimSNpShsRY_0CI0ne_1200x900.jpg",
-    "left": "https://images.craigslist.org/00F0F_7dxjvgrPSbf_0CI0ne_1200x900.jpg",
-    "right": "https://images.craigslist.org/00m0m_jCQMUChnuDp_0CI0ne_1200x900.jpg"
+    "front": "https://21.img.avito.st/1280x960/8537337021.jpg",
+    "back": "https://15.img.avito.st/1280x960/8537337015.jpg",
+    "left": "https://15.img.avito.st/1280x960/8537337015.jpg",
+    "right": "https://54.img.avito.st/1280x960/8537309754.jpg"
   },
   {
     "id": "007",
-    "front": "https://images.craigslist.org/00w0w_84C7d2Q06XB_0CI0t2_1200x900.jpg",
-    "back": "https://images.craigslist.org/00w0w_8R0K8hWiNe1_0CI0t2_1200x900.jpg",
-    "left": "https://images.craigslist.org/00E0E_gU8FPheapZh_0CI0t2_1200x900.jpg",
-    "right": "https://images.craigslist.org/00303_xs5ysZexfE_0CI0t2_1200x900.jpg"
+    "front": "https://14.img.avito.st/1280x960/6099645014.jpg",
+    "back": "https://46.img.avito.st/1280x960/6099645346.jpg",
+    "left": "https://23.img.avito.st/1280x960/6099645123.jpg",
+    "right": "https://65.img.avito.st/1280x960/6099645465.jpg"
   }
-
 ]
