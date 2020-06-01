@@ -183,16 +183,38 @@ def refresh_defects(request):
     api.task.set_data(task_id, defects_annotations, "data.defectsAnnotations")
 
 
-def finish_defects():
-    pass
+def finish_defects(request):
+    case_index = api.task.get_data(task_id, "data.caseIndex")
+    case_index += 1
+    if case_index >= len(cases):
+        return
+
+    api.task.set_data(task_id,
+    {
+        "caseIndex": case_index,
+        "caseId": cases[case_index]["id"],
+        "sideUrls": get_case_urls(cases[case_index]),
+        "partsLabelingUrl": ["a", "b", "c", "d"],
+        "defectsLabelingUrl": ["x", "y", "y", "z"]
+    },
+    "data", append=True)
+
+    api.task.set_data(task_id,
+                      {
+                          "active": 1,
+                          "selectedImageIndex": 0,
+                          "sideAccepted": [True] * len(sides),
+                      },
+                      "state", append=True)
+
+
+def reject_case(request):
+    finish_defects(request)
 
 
 def main():
-
     with open(os.path.join(SCRIPT_DIR, 'gui.html'), 'r') as file:
         gui_template = file.read()
-
-
 
     #data
     data = {
@@ -233,6 +255,8 @@ def main():
     app_service.add_route("refresh_parts", refresh_parts)
     app_service.add_route("finish_parts", finish_parts)
     app_service.add_route("refresh_defects", refresh_defects)
+    app_service.add_route("finish_defects", finish_defects)
+    app_service.add_route("reject_case", reject_case)
     app_service.run()
 
 
