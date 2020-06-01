@@ -1,0 +1,6 @@
+{
+    "front": ["hood", "headlight", "bumber", "windshield"],
+    "back": ["back window", "tail light", "trunk", "step bumber"],
+    "left": ["mirror", "window", "door"],
+    "right": ["mirror", "window", "door"]
+}
