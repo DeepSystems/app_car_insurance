@@ -1,6 +1,6 @@
 {
-  "task_id": 130,
+  "task_id": 20,
   "description": "file is using only for debugging",
-  "server_address": "http://192.168.1.42",
-  "api_token": "axEnFUWsVgtnxXCMbgyyemKIK81jdfgVZdavoMwxDCTSV8tPFwAxvEgD6q51yuExoIn993GRILOQ4dABb1Ilah6bZp4GPjcIpwFA6sPt1IhZe39E88BiVJ08LuaOZh9L"
+  "server_address": "http://78.46.75.100:11111/",
+  "api_token": "A1Q5vAluxaFHCf9lu2x3mECOUYVi0EzSPswruGUUS8zVfmnrLA8hw0S2e9ElhKwu4fKjQe3BOHmUIgNx0DVFKUnqmHV5vnSmynhBedXr45Qr32rt6DfkBn4C7BH2eE2Y"
 }

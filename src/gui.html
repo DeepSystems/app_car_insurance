@@ -1,5 +1,55 @@
-<el-steps :space="200" :active="1">
-  <el-step title="Step 1" description="Some description"></el-step>
-  <el-step title="Step 2" description="Some description"></el-step>
-  <el-step title="Step 3" description="Some description"></el-step>
-</el-steps>
+<div>
+  <el-steps :space="200" :active="state.active">
+    <el-step title="Case validation" description="Check if this case meets requirements"></el-step>
+    <el-step title="Parts labeling" description="Label car parts with polygons"></el-step>
+    <el-step title="Defect labeling" description="Label cracks, holes and dents"></el-step>
+    <el-step title="Finish case" description="Check summary and move to next case"></el-step>
+  </el-steps>
+
+  <el-row :gutter="5">
+    <el-col :span="6">
+      <div style="margin: 5px; border: 1px solid #ccc; float: left;">
+        <img style="display: block; width: 100%; object-fit: contain; background: white;"
+           :src="data.case.front">
+        <div style="padding: 15px; text-align: center;">Front</div>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div style="margin: 5px; border: 1px solid #ccc; float: left;">
+        <img style="display: block; width: 100%; object-fit: contain; background: white;"
+           :src="data.case.back">
+        <div style="padding: 15px; text-align: center;">Back</div>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div style="margin: 5px; border: 1px solid #ccc; float: left;">
+        <img style="display: block; width: 100%; object-fit: contain; background: white;"
+           :src="data.case.left">
+        <div style="padding: 15px; text-align: center;">Left</div>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div style="margin: 5px; border: 1px solid #ccc; float: left;">
+        <img style="display: block; width: 100%; object-fit: contain; background: white;"
+           :src="data.case.right">
+        <div style="padding: 15px; text-align: center;">Right</div>
+      </div>
+    </el-col>
+  </el-row>
+
+      <!--<div class="row">-->
+        <!--<div class="column">-->
+          <!--<img :src="data.case.front" style="width:100%">-->
+        <!--</div>-->
+        <!--<div class="column">-->
+          <!--<img :src="data.case.back" style="width:100%">-->
+        <!--</div>-->
+        <!--<div class="column">-->
+          <!--<img :src="data.case.left" style="width:100%">-->
+        <!--</div>-->
+        <!--<div class="column">-->
+          <!--<img :src="data.case.right" style="width:100%">-->
+        <!--</div>-->
+      <!--</div>-->
+
+</div>

@@ -7,18 +7,24 @@ import utils
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+
 def main():
     task_id, api = utils.get_task_api()
 
     with open(os.path.join(SCRIPT_DIR, 'gui.html'), 'r') as file:
         gui_template = file.read()
 
+
+    cases = sly_json.load_json_file(os.path.join(SCRIPT_DIR, '../cases.json'))
+
     #data
     data = {
+        "case": cases[0]
     }
 
     #state
     state = {
+        "active": 1,
     }
 
     payload = {
@@ -27,7 +33,7 @@ def main():
         sly.app.DATA: data,
     }
 
-    #http://192.168.1.42/apps/sessions/130
+    #http://78.46.75.100:11111/apps/sessions/20
     jresp = api.task.set_data(task_id, payload)
 
 
