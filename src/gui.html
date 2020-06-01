@@ -6,17 +6,45 @@
     <el-step title="Finish case" description="Check summary and move to next case"></el-step>
   </el-steps>
 
-  <br/>
+  <div class="fflex">
+    <!--<div style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"-->
+         <!--@click="state.selectedImageIndex = index"-->
+         <!--v-for="(url, index) in data.sideUrls">-->
+      <!--<card-->
+           <!--:title="data.sideCaptions[index]"-->
+           <!--:style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" >-->
+              <!--<img style="display: block; width: 100%; object-fit: contain; background: white;":src="url"/>-->
+      <!--</card>-->
+    <!--</div>-->
 
-
-  <div style="float: left; margin: 1px; border: 3px solid transparent;"
-       :style="{ borderColor: state.selectedSideIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">
-        <img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;"
-             :src="url"
-             @click="state.selectedImageIndex = index"
-        />
-      <!--<div v-if="item.label.length >= 15" style="text-align:center; word-wrap:break-word;">{{ item.label.substring(0,15)+".." }}</div>-->
+      <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
+           :title="data.sideCaptions[index]"
+           :style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">
+              <img style="display: block; width: 100%; object-fit: contain; background: white;"
+                   :src="url"
+                   @click="state.selectedImageIndex = index" />
+      </card>
   </div>
+
+
+  <!--<el-row>-->
+    <!--<el-col :span="12"><div>text here</div></el-col>-->
+    <!--<el-col :span="12"><el-switch v-model="state.frontAccept" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch></el-col>-->
+  <!--</el-row>-->
+
+  <!--<div style="margin: 5px; border: 1px solid #ccc; float: left;">-->
+    <!--<img style="display: block; width: 100%; object-fit: contain; background: white;" :src="data.sideUrls[0]">-->
+    <!--<div>text here</div>-->
+  <!--</div>-->
+
+  <!--<div style="float: left; margin: 1px; border: 3px solid transparent;"-->
+       <!--:style="{ borderColor: state.selectedSideIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">-->
+        <!--<img style="display: block; width: 100%; height: 100px; object-fit: contain; background: white;"-->
+             <!--:src="url"-->
+             <!--@click="state.selectedImageIndex = index"-->
+        <!--/>-->
+      <!--&lt;!&ndash;<div v-if="item.label.length >= 15" style="text-align:center; word-wrap:break-word;">{{ item.label.substring(0,15)+".." }}</div>&ndash;&gt;-->
+  <!--</div>-->
 
   <!--<el-row :gutter="5">-->
     <!--<el-col :span="6">-->

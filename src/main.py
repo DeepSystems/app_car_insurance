@@ -43,7 +43,7 @@ def main():
         "backAccept": True,
         "leftAccept": True,
         "rightAccept": True,
-        "selectedSideIndex": 0
+        "selectedImageIndex": 0
     }
 
     payload = {
