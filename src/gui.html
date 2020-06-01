@@ -52,12 +52,8 @@
         </card>
     </div>
 
-    <!--<el-dialog size="large" :visible.sync="state.dialogTableVisible2">-->
-      <!--<sly-gallery v-if="!!data.partsAnnotations" height="calc(100vh - 300px)" :content="[[data.sideUrls[state.selectedImageIndex], data.partsAnnotations[state.selectedImageIndex]]]"/>-->
-    <!--</el-dialog>-->
-
-    <el-button type="primary" @click="command('refresh_parts')">Refresh</el-button>
-    <el-button type="primary" style="margin-top: 10px;">Finish parts labeling</el-button>
+    <el-button type="primary" style="margin-top: 10px;" @click="command('refresh_parts')">Refresh</el-button>
+    <el-button type="primary" style="margin-top: 10px;" @click="command('finish_parts')">Finish parts labeling</el-button>
   </div>
 
   <div v-if="state.active === 3">
@@ -65,17 +61,17 @@
         <card style="margin-top: 15px; margin-right: 10px; border: 3px solid transparent;"
              :title="data.sideCaptions[index]"
              :style="{ borderColor: 'transparent' }" v-for="(url, index) in data.sideUrls">
-                <img style="display: block; width: 100%; object-fit: contain; background: white;"
-                     :src="url"
-                     @click="state.selectedImageIndex = index" />
+                <sly-gallery :content="data.defectsAnnotations[index]"/>
             <div slot="header">
               <a :href="data.defectsLabelingUrl[index]" target="_blank">Label defects</a>
             </div>
         </card>
     </div>
-    <el-button type="primary" style="margin-top: 10px;">Finish defects labeling</el-button>
+
+    <el-button type="primary" style="margin-top: 10px;" @click="command('refresh_defects')">Refresh</el-button>
+    <el-button type="primary" style="margin-top: 10px;" @click="command('finish_defects')">Finish defects labeling</el-button>
   </div>
 
-  <card class="mt15" title="Debug state"><pre>{{state}}</pre></card>
+  <!--<card class="mt15" title="Debug state"><pre>{{state}}</pre></card>-->
 
 </div>

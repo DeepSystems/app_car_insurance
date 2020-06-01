@@ -15,7 +15,8 @@ labeling_config = sly_json.load_json_file(os.path.join(SCRIPT_DIR, "../labeling_
 cases = sly_json.load_json_file(os.path.join(SCRIPT_DIR, '../cases.json'))
 
 sides = ["front", "back", "left", "right"]
-projects = {}
+projects_parts = {}
+projects_defects = {}
 
 team_id = 1
 result_workspace_id = 6
@@ -41,15 +42,24 @@ def init_workspace():
         project = api.project.create(workspace_id, name)
         return project
 
-    for side in sides:
-        classes = [sly.ObjClass(class_name, sly.AnyGeometry) for class_name in labeling_config[side]]
-        projects[side] = create_project(labeling_workspace_id, side)
+    def create_meta(config, side):
         meta = sly.ProjectMeta()
+        classes = [sly.ObjClass(class_name, sly.AnyGeometry) for class_name in config[side]]
         meta = meta.add_obj_classes(classes)
         meta = meta.add_tag_metas([sly.TagMeta("case_id", sly.TagValueType.ANY_STRING),
-                                   sly.TagMeta("validation", sly.TagValueType.ONEOF_STRING, possible_values=["accepted", "rejected"]),
+                                   sly.TagMeta("validation", sly.TagValueType.ONEOF_STRING,
+                                               possible_values=["accepted", "rejected"]),
                                    sly.TagMeta("finished", sly.TagValueType.NONE)])
-        api.project.update_meta(projects[side].id, meta.to_json())
+        return meta
+
+    for side in sides:
+        projects_parts[side] = create_project(labeling_workspace_id, side + " parts")
+        meta_parts = create_meta(labeling_config["parts"], side)
+        api.project.update_meta(projects_parts[side].id, meta_parts.to_json())
+
+        projects_defects[side] = create_project(labeling_workspace_id, side + " defects")
+        meta_defects = create_meta(labeling_config["defects"], side)
+        api.project.update_meta(projects_defects[side].id, meta_defects.to_json())
 
 
 def accept_case(request):
@@ -59,15 +69,17 @@ def accept_case(request):
     draw_image_ids = []
 
     for side in sides:
-        dataset = api.dataset.get_or_create(projects[side].id, str(case["id"]))
+        dataset = api.dataset.get_or_create(projects_parts[side].id, str(case["id"]))
         try:
             image_info = api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
-            url = api.image.url(team_id, labeling_workspace_id, projects[side].id, dataset.id, image_info.id)
+            url = api.image.url(team_id, labeling_workspace_id, projects_parts[side].id, dataset.id, image_info.id)
             draw_image_ids.append({"side": side, "image_id": image_info.id, "image_url": case[side]})
             partsLabelingUrl.append(url)
         except Exception as e:
             print(e)
             pass
+
+
     api.task.set_data(task_id, 2, "state.active")
 
     partsAnnotations = []
@@ -96,7 +108,7 @@ def refresh_parts(request):
         side = draw_obj["side"]
         image_url = draw_obj["image_url"]
 
-        meta_json = api.project.get_meta(projects[side].id)
+        meta_json = api.project.get_meta(projects_parts[side].id)
         meta = sly.ProjectMeta.from_json(meta_json)
 
         ann_json = api.annotation.download(image_id).annotation
@@ -113,7 +125,63 @@ def refresh_parts(request):
         parts_annotations.append([[image_url, sly.image.np_image_to_data_url(bgra)]])
 
     api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
-    print(parts_annotations)
+
+
+def finish_parts(request):
+    case_index = api.task.get_data(task_id, "data.caseIndex")
+    case = cases[case_index]
+    defectsLabelingUrl = []
+    draw_image_ids = []
+
+    for side in sides:
+        dataset = api.dataset.get_or_create(projects_defects[side].id, str(case["id"]))
+        try:
+            image_info = api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
+            url = api.image.url(team_id, labeling_workspace_id, projects_defects[side].id, dataset.id, image_info.id)
+            draw_image_ids.append({"side": side, "image_id": image_info.id, "image_url": case[side]})
+            defectsLabelingUrl.append(url)
+        except Exception as e:
+            print(e)
+            pass
+    api.task.set_data(task_id, 3, "state.active")
+
+    defectsAnnotations = []
+    for url in get_case_urls(case):
+        defectsAnnotations.append([[url, url]])
+
+    api.task.set_data(task_id, {"defectsLabelingUrl": defectsLabelingUrl,
+                                "drawImageIdsDefects": draw_image_ids,
+                                "defectsAnnotations": defectsAnnotations}, "data", append=True)
+
+
+def refresh_defects(request):
+
+    defects_annotations = []
+
+    draw_image_ids = api.task.get_data(task_id, "data.drawImageIdsDefects")
+    for draw_obj in draw_image_ids:
+        image_id = draw_obj["image_id"]
+        side = draw_obj["side"]
+        image_url = draw_obj["image_url"]
+
+        meta_json = api.project.get_meta(projects_defects[side].id)
+        meta = sly.ProjectMeta.from_json(meta_json)
+
+        ann_json = api.annotation.download(image_id).annotation
+        ann = sly.Annotation.from_json(ann_json, meta)
+        render = np.zeros(ann.img_size + (3,), dtype=np.uint8)
+        alpha = np.zeros(ann.img_size + (1,), dtype=np.uint8)
+        ann.draw(render)
+        ann.draw(alpha, color=[255])
+        rgba = np.concatenate((render, alpha), axis=2)
+
+        bgra = rgba[..., [2, 1, 0, 3]]
+        #sly.image.write("/workdir/src/01.png", rgba, remove_alpha_channel=False)
+
+        defects_annotations.append([[image_url, sly.image.np_image_to_data_url(bgra)]])
+
+    api.task.set_data(task_id, defects_annotations, "data.defectsAnnotations")
+
 
 def main():
 
@@ -159,6 +227,8 @@ def main():
     app_service = AppService(sly.logger, task_config)
     app_service.add_route("accept_case", accept_case)
     app_service.add_route("refresh_parts", refresh_parts)
+    app_service.add_route("finish_parts", finish_parts)
+    app_service.add_route("refresh_defects", refresh_defects)
     app_service.run()
 
 
