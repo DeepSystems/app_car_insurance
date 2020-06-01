@@ -65,6 +65,7 @@ def accept_case(request):
             draw_image_ids.append({"side": side, "image_id": image_info.id, "image_url": case[side]})
             partsLabelingUrl.append(url)
         except Exception as e:
+            print(e)
             pass
     api.task.set_data(task_id, 2, "state.active")
 
