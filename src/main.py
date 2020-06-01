@@ -13,6 +13,7 @@ cases = sly_json.load_json_file(os.path.join(SCRIPT_DIR, '../cases.json'))
 sides = ["front", "back", "left", "right"]
 projects = {}
 
+team_id = 1
 result_workspace_id = 6
 labeling_workspace_id = 7
 
@@ -50,9 +51,18 @@ def init_workspace():
 def accept_case(request):
     case_index = api.task.get_data(task_id, "data.caseIndex")
     case = cases[case_index]
+    partsLabelingUrl = []
+
     for side in sides:
         dataset = api.dataset.get_or_create(projects[side].id, str(case["id"]))
-        api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
+        try:
+            image_info = api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
+            url = api.image.url(team_id, labeling_workspace_id, projects[side].id, dataset.id, image_info.id)
+            partsLabelingUrl.append(url)
+        except Exception as e:
+            pass
+    api.task.set_data(task_id, 2, "state.active")
+    api.task.set_data(task_id, partsLabelingUrl, "data.partsLabelingUrl")
 
 
 def get_case_urls(case):
