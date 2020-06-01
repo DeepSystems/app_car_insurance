@@ -107,7 +107,6 @@ def refresh_parts(request):
         ann.draw(alpha, color=[255])
         rgba = np.concatenate((render, alpha), axis=2)
 
-
         bgra = rgba[..., [2, 1, 0, 3]]
         #sly.image.write("/workdir/src/01.png", rgba, remove_alpha_channel=False)
 
