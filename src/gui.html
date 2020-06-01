@@ -45,16 +45,16 @@
                 <!--<img style="display: block; width: 100%; object-fit: contain; background: white;"-->
                      <!--:src="url"-->
                      <!--@click="state.selectedImageIndex = index; state.dialogTableVisible2 = true" />-->
-                <sly-gallery :content="data.partsAnnotations"/>
+                <sly-gallery :content="[[data.sideUrls[index], data.partsAnnotations[index]]]"/>
             <div slot="header">
               <a :href="data.partsLabelingUrl[index]" target="_blank">Label parts</a>
             </div>
         </card>
     </div>
 
-    <el-dialog size="large" :visible.sync="state.dialogTableVisible2">
-      <sly-gallery v-if="!!data.partsAnnotations" height="calc(100vh - 300px)" :content="[[data.sideUrls[state.selectedImageIndex], data.partsAnnotations[state.selectedImageIndex]]]"/>
-    </el-dialog>
+    <!--<el-dialog size="large" :visible.sync="state.dialogTableVisible2">-->
+      <!--<sly-gallery v-if="!!data.partsAnnotations" height="calc(100vh - 300px)" :content="[[data.sideUrls[state.selectedImageIndex], data.partsAnnotations[state.selectedImageIndex]]]"/>-->
+    <!--</el-dialog>-->
 
     <el-button type="primary" @click="command('refresh_parts')">Refresh</el-button>
     <el-button type="primary" style="margin-top: 10px;">Finish parts labeling</el-button>

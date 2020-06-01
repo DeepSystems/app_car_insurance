@@ -62,7 +62,7 @@ def accept_case(request):
         try:
             image_info = api.image.upload_link(dataset.id, "{}.png".format(case["id"]), case[side])
             url = api.image.url(team_id, labeling_workspace_id, projects[side].id, dataset.id, image_info.id)
-            draw_image_ids.append({"side": side, "image_id": image_info.id})
+            draw_image_ids.append({"side": side, "image_id": image_info.id, "image_url": case[side]})
             partsLabelingUrl.append(url)
         except Exception as e:
             pass
@@ -92,6 +92,8 @@ def refresh_parts(request):
     for draw_obj in draw_image_ids:
         image_id = draw_obj["image_id"]
         side = draw_obj["side"]
+        image_url = draw_obj["image_url"]
+
         meta_json = api.project.get_meta(projects[side].id)
         meta = sly.ProjectMeta.from_json(meta_json)
 
@@ -100,7 +102,9 @@ def refresh_parts(request):
         render = np.zeros(ann.img_size + (3,), dtype=np.uint8)
         ann.draw(render)
 
-        parts_annotations.append(sly.image.np_image_to_data_url(render))
+        sly.image.write("/workdir/src/01.png", render)
+
+        parts_annotations.append([image_url, sly.image.np_image_to_data_url(render)])
 
     api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
 
