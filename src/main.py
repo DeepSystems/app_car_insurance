@@ -7,10 +7,18 @@ import utils
 from service import AppService
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+sides = ["front", "back", "left", "right"]
 
 def validate_case(request):
     #print(request)
     print("done")
+
+
+def get_case_urls(case):
+    case_urls = []
+    for side in sides:
+        case_urls.append(case[side])
+    return case_urls
 
 
 def main():
@@ -24,7 +32,8 @@ def main():
 
     #data
     data = {
-        "case": cases[0]
+        "sideUrls": get_case_urls(cases[0]),
+        "sideCaptions": sides
     }
 
     #state
@@ -34,6 +43,7 @@ def main():
         "backAccept": True,
         "leftAccept": True,
         "rightAccept": True,
+        "selectedSideIndex": 0
     }
 
     payload = {
