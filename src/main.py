@@ -4,12 +4,17 @@ _start = time.time()
 import supervisely_lib as sly
 import supervisely_lib.io.json as sly_json
 import utils
-
+from service import AppService
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
+def validate_case(request):
+    #print(request)
+    print("done")
+
+
 def main():
-    task_id, api = utils.get_task_api()
+    task_id, api, task_config = utils.get_task_api()
 
     with open(os.path.join(SCRIPT_DIR, 'gui.html'), 'r') as file:
         gui_template = file.read()
@@ -39,6 +44,13 @@ def main():
 
     #http://78.46.75.100:11111/apps/sessions/20
     jresp = api.task.set_data(task_id, payload)
+
+    app_service = AppService(sly.logger, task_config)
+    app_service.add_route("validate_case", validate_case)
+    app_service.run()
+
+
+    x = 10
 
 
 if __name__ == "__main__":
