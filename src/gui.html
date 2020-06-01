@@ -1,4 +1,4 @@
-<div>
+<div style="padding: 10px">
   <el-steps :space="200" :active="state.active">
     <el-step title="Case validation" description="Check if this case meets requirements"></el-step>
     <el-step title="Parts labeling" description="Label car parts with polygons"></el-step>
@@ -15,7 +15,7 @@
              :style="{ borderColor: state.selectedImageIndex === index ? '#20A0FF' : 'transparent' }" v-for="(url, index) in data.sideUrls">
                 <img style="display: block; width: 100%; object-fit: contain; background: white;"
                      :src="url"
-                     @click="state.selectedImageIndex = index" />
+                     @click="state.selectedImageIndex = index; state.dialogTableVisible = true" />
             <div slot="header">
               <el-switch style="margin-top: -5px;" :width=80 v-model="state.sideAccepted[index]" on-color="#13ce66" off-color="#ff4949" on-text="accept" off-text="reject"> </el-switch>
             </div>
@@ -27,8 +27,13 @@
       <el-button v-if="!state.sideAccepted.every(Boolean)" type="danger">Reject case</el-button>
     </div>
 
-    <!--<card style="margin-top:10px; width: 300px; height: 300px" title="Image preview" subtitle="Use zoom/pan instruments to look over details">-->
-        <!--<sly-gallery :content="[[data.sideUrls[state.selectedImageIndex]]]"/>-->
+
+    <el-dialog size="large" :visible.sync="state.dialogTableVisible">
+      <sly-gallery height="calc(100vh - 300px)" :content="[[data.sideUrls[state.selectedImageIndex]]]"/>
+    </el-dialog>
+
+    <!--<card style="margin-top:10px;" title="Image preview" subtitle="Use zoom/pan instruments to look over details">-->
+        <!--<sly-gallery height="500px" :content="[[data.sideUrls[state.selectedImageIndex]]]"/>-->
     <!--</card>-->
 
   </div>
@@ -66,6 +71,6 @@
     <el-button type="primary" style="margin-top: 10px;">Finish defects labeling</el-button>
   </div>
 
-  <card class="mt15" title="Debug state"><pre>{{state}}</pre></card>
+  <!--<card class="mt15" title="Debug state"><pre>{{state}}</pre></card>-->
 
 </div>

@@ -46,7 +46,8 @@ def main():
         "backAccept": True,
         "leftAccept": True,
         "rightAccept": True,
-        "selectedImageIndex": 0
+        "selectedImageIndex": 0,
+        "dialogTableVisible": False
     }
 
     payload = {
