@@ -1,14 +1,14 @@
 {
     "parts": {
         "front": ["hood", "headlight", "bumber", "windshield"],
-        "back": ["back window", "tail light", "trunk", "step bumber"],
-        "left": ["mirror", "window", "door"],
+        "back":  ["back window", "tail light", "trunk", "step bumber"],
+        "left":  ["mirror", "window", "door"],
         "right": ["mirror", "window", "door"]
     },
     "defects": {
         "front": ["defect #1", "defect #2"],
-        "back": ["defect #1", "defect #3"],
-        "left": ["defect #4"],
+        "back":  ["defect #1", "defect #3"],
+        "left":  ["defect #4"],
         "right": ["defect #1", "defect #3", "defect #7"]
     }
 }

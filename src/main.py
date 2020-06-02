@@ -25,12 +25,14 @@ labeling_workspace_id = 7
 task_id, api, task_config = utils.get_task_api()
 
 
+@sly.ptimer
 def clean_workspace(workspace_id):
     projects = api.project.get_list(workspace_id)
     for project in projects:
         api.project.remove(project.id)
 
 
+@sly.ptimer
 def init_workspace():
     clean_workspace(result_workspace_id)
     clean_workspace(labeling_workspace_id)
@@ -62,6 +64,7 @@ def init_workspace():
         api.project.update_meta(projects_defects[side].id, meta_defects.to_json())
 
 
+@sly.ptimer
 def accept_case(request):
     case_index = api.task.get_data(task_id, "data.caseIndex")
     case = cases[case_index]
@@ -98,6 +101,7 @@ def get_case_urls(case):
     return case_urls
 
 
+@sly.ptimer
 def refresh_parts(request):
 
     parts_annotations = []
@@ -127,6 +131,7 @@ def refresh_parts(request):
     api.task.set_data(task_id, parts_annotations, "data.partsAnnotations")
 
 
+@sly.ptimer
 def finish_parts(request):
     case_index = api.task.get_data(task_id, "data.caseIndex")
     case = cases[case_index]
@@ -154,6 +159,7 @@ def finish_parts(request):
                                 "defectsAnnotations": defectsAnnotations}, "data", append=True)
 
 
+@sly.ptimer
 def refresh_defects(request):
 
     defects_annotations = []
@@ -183,6 +189,7 @@ def refresh_defects(request):
     api.task.set_data(task_id, defects_annotations, "data.defectsAnnotations")
 
 
+@sly.ptimer
 def finish_defects(request):
     case_index = api.task.get_data(task_id, "data.caseIndex")
     case_index += 1
@@ -208,8 +215,18 @@ def finish_defects(request):
                       "state", append=True)
 
 
+@sly.ptimer
 def reject_case(request):
     finish_defects(request)
+
+
+# @sly.ptimer
+# def finish_case():
+#     data = api.task.get_data(task_id, "data")
+#
+#     draw_image_ids_parts = data["drawImageIds"] # api.task.get_data(task_id, "data.drawImageIds")
+#     draw_image_ids_defects = data["drawImageIdsDefects"] # api.task.get_data(task_id, "data.drawImageIdsDefects")
+
 
 
 def main():
